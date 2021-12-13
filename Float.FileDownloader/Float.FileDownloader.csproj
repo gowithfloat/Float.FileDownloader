@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackOnBuild>true</PackOnBuild>
+    <Authors>Float, LLC</Authors>
+    <Owners>Float</Owners>
+    <PackageProjectUrl>https://www.gowithfloat.com</PackageProjectUrl>
+    <Summary>File downloading library</Summary>
+    <Title>Float.FileDownloader</Title>
+    <Description>File downloading library</Description>
+    <PackageId>Float.FileDownloader</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="../stylecop.json" />
+  </ItemGroup>
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>../stylecop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DocumentationFile>bin\Debug\netstandard2.0\Float.FileDownloader.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="..\Float.FileDownloader.Shared\Float.FileDownloader.Shared.projitems" Label="Shared" />
+</Project>
