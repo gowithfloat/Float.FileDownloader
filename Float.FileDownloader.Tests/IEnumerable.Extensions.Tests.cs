@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Float.FileDownloader.Tests
 {
     public class IEnumerableExtensionsTests
     {
-        [Test]
+        [Fact]
         public void TestPercentSum()
         {
             var list = new List<IPercentProgress>
@@ -15,10 +15,10 @@ namespace Float.FileDownloader.Tests
                 new SimplePercentProgress(0.75)
             };
 
-            Assert.AreEqual(1.25, list.PercentSum());
+            Assert.Equal(1.25, list.PercentSum());
         }
 
-        [Test]
+        [Fact]
         public void TestTotalPercentComplete()
         {
             var list = new List<IPercentProgress>
@@ -28,10 +28,10 @@ namespace Float.FileDownloader.Tests
                 new SimplePercentProgress(0.9)
             };
 
-            Assert.AreEqual(0.6, list.TotalPercentComplete());
+            Assert.Equal(0.6, list.TotalPercentComplete());
         }
 
-        [Test]
+        [Fact]
         public void TestNan()
         {
             var list = new List<IPercentProgress>
@@ -41,16 +41,16 @@ namespace Float.FileDownloader.Tests
                 new SimplePercentProgress(0)
             };
 
-            Assert.AreEqual(0.3, list.PercentSum());
-            Assert.AreEqual(0.1, list.TotalPercentComplete(), 8);
+            Assert.Equal(0.3, list.PercentSum());
+            Assert.Equal(0.1, list.TotalPercentComplete(), 8);
         }
 
-        [Test]
+        [Fact]
         public void TestEmpty()
         {
             var list = new List<IPercentProgress>();
-            Assert.AreEqual(0.0, list.PercentSum());
-            Assert.AreEqual(double.NaN, list.TotalPercentComplete());
+            Assert.Equal(0.0, list.PercentSum());
+            Assert.Equal(double.NaN, list.TotalPercentComplete());
         }
 
         class SimplePercentProgress : IPercentProgress

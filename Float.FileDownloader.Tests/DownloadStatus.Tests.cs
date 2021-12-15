@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using Xunit;
 
 namespace Float.FileDownloader.Tests
 {
     public class DownloadStatusTests
     {
-        [Test]
+        [Fact]
         public void TestInit()
         {
             Assert.Throws<ArgumentException>(() => new DownloadStatus(null));
@@ -15,11 +15,11 @@ namespace Float.FileDownloader.Tests
             Assert.Throws<ArgumentException>(() => new DownloadStatus(" "));
         }
 
-        [Test]
+        [Fact]
         public async Task TestStateCancelled()
         {
             var status = new DownloadStatus("name");
-            Assert.AreEqual(DownloadStatus.DownloadState.Waiting, status.State);
+            Assert.Equal(DownloadStatus.DownloadState.Waiting, status.State);
 
             var progress = status.AddProgressReporter<IDownloadBytesProgress>();
             progress.Report(new DownloadBytesProgress(new Uri("a://b.c"), 1, 2));
@@ -27,18 +27,18 @@ namespace Float.FileDownloader.Tests
             // we have to wait for events to propagate
             await Task.Delay(50);
 
-            Assert.AreEqual(DownloadStatus.DownloadState.Downloading, status.State);
-            Assert.AreEqual(0.5, status.PercentComplete);
+            Assert.Equal(DownloadStatus.DownloadState.Downloading, status.State);
+            Assert.Equal(0.5, status.PercentComplete);
 
             status.CancelDownload();
-            Assert.AreEqual(DownloadStatus.DownloadState.Cancelled, status.State);
+            Assert.Equal(DownloadStatus.DownloadState.Cancelled, status.State);
         }
 
-        [Test]
+        [Fact]
         public async Task TestStateFinished()
         {
             var status = new DownloadStatus("name");
-            Assert.AreEqual(DownloadStatus.DownloadState.Waiting, status.State);
+            Assert.Equal(DownloadStatus.DownloadState.Waiting, status.State);
 
             var progress = status.AddProgressReporter<IDownloadBytesProgress>();
             progress.Report(new DownloadBytesProgress(new Uri("a://b.c"), 1, 2));
@@ -46,35 +46,35 @@ namespace Float.FileDownloader.Tests
             // we have to wait for events to propagate
             await Task.Delay(50);
 
-            Assert.AreEqual(DownloadStatus.DownloadState.Downloading, status.State);
-            Assert.AreEqual(0.5, status.PercentComplete);
+            Assert.Equal(DownloadStatus.DownloadState.Downloading, status.State);
+            Assert.Equal(0.5, status.PercentComplete);
 
             progress.Report(new DownloadBytesProgress(new Uri("a://b.c"), 2, 2));
 
             await Task.Delay(50);
 
-            Assert.AreEqual(1.0, status.PercentComplete);
+            Assert.Equal(1.0, status.PercentComplete);
 
             status.OnProcessingComplete();
-            Assert.AreEqual(DownloadStatus.DownloadState.Finished, status.State);
+            Assert.Equal(DownloadStatus.DownloadState.Finished, status.State);
         }
 
-        [Test]
+        [Fact]
         public void TestStateError()
         {
             var status = new DownloadStatus("name");
-            Assert.AreEqual(DownloadStatus.DownloadState.Waiting, status.State);
+            Assert.Equal(DownloadStatus.DownloadState.Waiting, status.State);
 
             status.OnProcessingComplete(new Exception());
-            Assert.AreEqual(DownloadStatus.DownloadState.Error, status.State);
+            Assert.Equal(DownloadStatus.DownloadState.Error, status.State);
         }
 
-        [Test]
+        [Fact]
         public async Task TestPropertyChanged()
         {
             var status = new DownloadStatus("name");
             var percentProgressChanges = 0;
-            Assert.AreEqual(DownloadStatus.DownloadState.Waiting, status.State);
+            Assert.Equal(DownloadStatus.DownloadState.Waiting, status.State);
 
             status.PropertyChanged += (sender, args) =>
             {
@@ -84,26 +84,26 @@ namespace Float.FileDownloader.Tests
                 }
             };
 
-            Assert.AreEqual(0, percentProgressChanges);
+            Assert.Equal(0, percentProgressChanges);
 
             var progress = status.AddProgressReporter<IDownloadBytesProgress>();
             await Task.Delay(50);
-            Assert.AreEqual(0, percentProgressChanges);
+            Assert.Equal(0, percentProgressChanges);
 
             progress.Report(new DownloadBytesProgress(new Uri("a://b.c"), 1, 5));
             await Task.Delay(50);
-            Assert.AreEqual(1, percentProgressChanges);
+            Assert.Equal(1, percentProgressChanges);
 
             progress.Report(new DownloadBytesProgress(new Uri("a://b.c"), 2, 5));
             await Task.Delay(50);
-            Assert.AreEqual(2, percentProgressChanges);
+            Assert.Equal(2, percentProgressChanges);
 
             progress.Report(new DownloadBytesProgress(new Uri("a://b.c"), 201, 500));
             await Task.Delay(50);
-            Assert.AreEqual(2, percentProgressChanges);
+            Assert.Equal(2, percentProgressChanges);
         }
 
-        [Test]
+        [Fact]
         public async Task TestProgressSum()
         {
             var status = new DownloadStatus("name");
@@ -116,10 +116,10 @@ namespace Float.FileDownloader.Tests
             progress3.Report(new DownloadBytesProgress(new Uri("a://b.d"), 1500, 10000));
             await Task.Delay(100);
 
-            Assert.AreEqual(0.18333, status.PercentComplete, 5);
+            Assert.Equal(0.18333, status.PercentComplete, 5);
         }
 
-        [Test]
+        [Fact]
         public async Task TestDownloadStatusConcurrentModification()
         {
             List<Task> tasks = new List<Task>();

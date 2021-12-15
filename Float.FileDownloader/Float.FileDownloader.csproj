@@ -27,5 +27,15 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-  <Import Project="..\Float.FileDownloader.Shared\Float.FileDownloader.Shared.projitems" Label="Shared" />
+  <ItemGroup>
+    <EmbeddedResource Update="FileDownloaderStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FileDownloaderStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="FileDownloaderStrings.Designer.cs">
+      <DependentUpon>FileDownloaderStrings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

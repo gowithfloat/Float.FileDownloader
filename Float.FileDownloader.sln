@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Float.FileDownloader.Tests", "Float.FileDownloader.Tests\Float.FileDownloader.Tests.csproj", "{4634C855-96CD-444E-AF68-005A20E2EE56}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Float.FileDownloader.Shared", "Float.FileDownloader.Shared\Float.FileDownloader.Shared.shproj", "{E6330203-60AA-491E-A025-8E1E2B44A31D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Float.FileDownloader", "Float.FileDownloader\Float.FileDownloader.csproj", "{4036122C-4102-4F34-8CCC-08F64E7DBFFB}"
 EndProject
 Global
@@ -29,7 +27,9 @@ Global
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
-		$0.StandardHeader = $1
-		$1.Text = @<copyright file="${FileName}" company="${AuthorName}">\n${CopyrightHolder} ("${AuthorName}") CONFIDENTIAL\nUnpublished Copyright (c) ${Year} ${AuthorName}, All Rights Reserved.\n\nNOTICE: All information contained herein is, and remains the property of Float. The intellectual and technical concepts contained\nherein are proprietary to Float and may be covered by U.S. and Foreign Patents, patents in process, and are protected by trade secret or copyright law.\nDissemination of this information or reproduction of this material is strictly forbidden unless prior written permission is obtained\nfrom Float. Access to the source code contained herein is hereby forbidden to anyone except current Float employees, managers or contractors who have executed\nConfidentiality and Non-disclosure agreements explicitly covering such access.\n\nThe copyright notice above does not evidence any actual or intended publication or disclosure of this source code, which includes\ninformation that is confidential and/or proprietary, and is a trade secret, of Float. ANY REPRODUCTION, MODIFICATION, DISTRIBUTION, PUBLIC PERFORMANCE,\nOR PUBLIC DISPLAY OF OR THROUGH USE OF THIS SOURCE CODE WITHOUT THE EXPRESS WRITTEN CONSENT OF FLOAT IS STRICTLY PROHIBITED, AND IN VIOLATION OF APPLICABLE\nLAWS AND INTERNATIONAL TREATIES. THE RECEIPT OR POSSESSION OF THIS SOURCE CODE AND/OR RELATED INFORMATION DOES NOT CONVEY OR IMPLY ANY RIGHTS\nTO REPRODUCE, DISCLOSE OR DISTRIBUTE ITS CONTENTS, OR TO MANUFACTURE, USE, OR SELL ANYTHING THAT IT MAY DESCRIBE, IN WHOLE OR IN PART.\n</copyright>
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
+		$0.StandardHeader = $2
+		$2.IncludeInNewFiles = False
 	EndGlobalSection
 EndGlobal

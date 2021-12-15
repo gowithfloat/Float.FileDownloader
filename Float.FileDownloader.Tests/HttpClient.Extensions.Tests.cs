@@ -1,55 +1,54 @@
 ﻿using System;
 using System.IO;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using Xunit;
 using static Float.FileDownloader.Tests.TestHelpers;
 
 namespace Float.FileDownloader.Tests
 {
     public class HttpClientExtensionsTests
     {
-        [Test]
-        public void TestDownloadAsyncNullUri()
+        [Fact]
+        public async Task TestDownloadAsyncNullUri()
         {
             using (var client = new HttpClient())
             using (var writeStream = File.OpenWrite(TempFilePath()))
             {
-                Assert.ThrowsAsync<ArgumentNullException>(async () => await client.DownloadAsync(null, writeStream, null, default, 2048));
+                await Assert.ThrowsAsync<ArgumentNullException>(async () => await client.DownloadAsync(null, writeStream, null, default, 2048));
             }
         }
 
-        [Test]
-        public void TestDownloadAsyncNullDestination()
+        [Fact]
+        public async Task TestDownloadAsyncNullDestination()
         {
             using (var client = new HttpClient())
             {
-                Assert.ThrowsAsync<ArgumentNullException>(async () => await client.DownloadAsync(TestUri(), null, null, default, 2048));
+                await Assert.ThrowsAsync<ArgumentNullException>(async () => await client.DownloadAsync(TestUri(), null, null, default, 2048));
             }
         }
 
-        [Test]
-        public void TestDownloadAsyncReadOnly()
+        [Fact]
+        public async Task TestDownloadAsyncReadOnly()
         {
             using (var client = new HttpClient())
             using (var writeStream = File.OpenRead(TempFilePath()))
             {
-                Assert.ThrowsAsync<InvalidOperationException>(async () => await client.DownloadAsync(TestUri(), writeStream, null, default, 2048));
+                await Assert.ThrowsAsync<InvalidOperationException>(async () => await client.DownloadAsync(TestUri(), writeStream, null, default, 2048));
             }
         }
 
-        [Test]
-        public void TestDownloadAsyncInvalidBuffer()
+        [Fact]
+        public async Task TestDownloadAsyncInvalidBuffer()
         {
             using (var client = new HttpClient())
             using (var writeStream = File.OpenWrite(TempFilePath()))
             {
-                Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await client.DownloadAsync(TestUri(), writeStream, null, default, 0));
+                await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await client.DownloadAsync(TestUri(), writeStream, null, default, 0));
             }
         }
 
-        [Test]
+        [Fact]
         public async Task TestDownloadAsync()
         {
             var progress = new Progress<IDownloadBytesProgress>(totalBytes => { });
@@ -61,7 +60,7 @@ namespace Float.FileDownloader.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public async Task TestDownloadAsyncWithoutProgress()
         {
             using (var client = new HttpClient())

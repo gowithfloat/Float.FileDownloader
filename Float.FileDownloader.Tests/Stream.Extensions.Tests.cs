@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using Xunit;
 using static Float.FileDownloader.Tests.TestHelpers;
 
 namespace Float.FileDownloader.Tests
@@ -12,7 +12,7 @@ namespace Float.FileDownloader.Tests
         /// <summary>
         /// Verify that the current platform can handle a simple file copy.
         /// </summary>
-        [Test]
+        [Fact]
         public async Task TestSanity()
         {
             var source = TempFilePath();
@@ -26,49 +26,49 @@ namespace Float.FileDownloader.Tests
             }
 
             var destinationText = File.ReadAllText(destination);
-            Assert.AreEqual("test contents", destinationText);
+            Assert.Equal("test contents", destinationText);
         }
 
-        [Test]
-        public void TestCopyFromWriteOnly()
+        [Fact]
+        public async Task TestCopyFromWriteOnly()
         {
             using (var readStream = File.OpenWrite(TempFilePath()))
             using (var writeStream = File.OpenWrite(TempFilePath()))
             {
-                Assert.ThrowsAsync<InvalidOperationException>(async () => await readStream.CopyToAsync(writeStream, SimpleProgress()));
+                await Assert.ThrowsAsync<InvalidOperationException>(async () => await readStream.CopyToAsync(writeStream, SimpleProgress()));
             }
         }
 
-        [Test]
-        public void TestCopyToReadOnly()
+        [Fact]
+        public async Task TestCopyToReadOnly()
         {
             using (var readStream = File.OpenRead(TempFilePath()))
             using (var writeStream = File.OpenRead(TempFilePath()))
             {
-                Assert.ThrowsAsync<InvalidOperationException>(async () => await readStream.CopyToAsync(writeStream, SimpleProgress()));
+                await Assert.ThrowsAsync<InvalidOperationException>(async () => await readStream.CopyToAsync(writeStream, SimpleProgress()));
             }
         }
 
-        [Test]
-        public void TestCopyToNull()
+        [Fact]
+        public async Task TestCopyToNull()
         {
             using (var readStream = File.OpenRead(TempFilePath()))
             {
-                Assert.ThrowsAsync<ArgumentNullException>(async () => await readStream.CopyToAsync(null, SimpleProgress()));
+                await Assert.ThrowsAsync<ArgumentNullException>(async () => await readStream.CopyToAsync(null, SimpleProgress()));
             }
         }
 
-        [Test]
-        public void TestInvalidBufferSize()
+        [Fact]
+        public async Task TestInvalidBufferSize()
         {
             using (var readStream = File.OpenRead(TempFilePath()))
             using (var writeStream = File.OpenWrite(TempFilePath()))
             {
-                Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await readStream.CopyToAsync(writeStream, SimpleProgress(), new CancellationToken(), -1));
+                await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await readStream.CopyToAsync(writeStream, SimpleProgress(), new CancellationToken(), -1));
             }
         }
 
-        [Test]
+        [Fact]
         public async Task TestCopyEmptyAsync()
         {
             int progressCount = 0;
@@ -80,7 +80,26 @@ namespace Float.FileDownloader.Tests
                 await readStream.CopyToAsync(writeStream, progress);
             }
 
-            Assert.AreEqual(0, progressCount);
+            Assert.Equal(0, progressCount);
+        }
+
+        [Fact(Skip="bokred")]
+        public async Task TestCopyNonEmptyAsync()
+        {
+            var source = TempFilePath();
+            await File.WriteAllTextAsync(source, RandomString(4096));
+
+            int progressCount = 0;
+            var progress = new Progress<long>(totalBytes => progressCount++);
+
+            using (var readStream = File.OpenRead(source))
+            using (var writeStream = File.OpenWrite(TempFilePath()))
+            {
+                await readStream.CopyToAsync(writeStream, progress, new CancellationToken(), 1024);
+            }
+
+            // this is a little flaky, not sure why
+            Assert.InRange(progressCount, 1, 10);
         }
     }
 }

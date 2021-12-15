@@ -3,14 +3,14 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using Float.HttpServer;
-using NUnit.Framework;
+using Xunit;
 using static Float.FileDownloader.Tests.TestHelpers;
 
 namespace Float.FileDownloader.Tests
 {
-    [TestFixture]
-    public class FileDownloadRequestTests
+    public class FileDownloadRequestTests : IDisposable
     {
+        private bool isDisposed;
         private readonly LocalHttpServer server = new LocalHttpServer("127.0.0.1", 33616);
 
         static class PortSelector
@@ -48,17 +48,17 @@ namespace Float.FileDownloader.Tests
             return file;
         }
 
-        [Test]
+        [Fact]
         public async Task TestSmallDownload()
         {
             var provider = new SimpleRemoteFileProvider();
             var file = CreateFile();
             var destination = new Uri(TempFilePath());
             var response = await FileDownloadRequest.DownloadFile(provider, file, destination);
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
-        [Test]
+        [Fact]
         public async Task TestSmallDownloadWithProcessor()
         {
             var provider = new SimpleRemoteFileProvider();
@@ -66,13 +66,13 @@ namespace Float.FileDownloader.Tests
             var destination = new Uri(TempFilePath());
             var processor = new SimpleRemoteFileProcessor();
             var response = await FileDownloadRequest.DownloadFile(provider, file, destination, null, processor);
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            Assert.AreEqual(destination.AbsolutePath, processor.DownloadPath);
-            Assert.AreEqual(file, processor.RemoteFile);
-            Assert.AreEqual(response, processor.Message);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(destination.AbsolutePath, processor.DownloadPath);
+            Assert.Equal(file, processor.RemoteFile);
+            Assert.Equal(response, processor.Message);
         }
 
-        [Test]
+        [Fact]
         public async Task TestSmallDownloadWithStatus()
         {
             var provider = new SimpleRemoteFileProvider();
@@ -80,20 +80,20 @@ namespace Float.FileDownloader.Tests
             var destination = new Uri(TempFilePath());
             var status = new DownloadStatus("hi");
             var response = await FileDownloadRequest.DownloadFile(provider, file, destination, status);
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
-        [Test]
+        [Fact]
         public async Task TestLargeDownload()
         {
             var provider = new SimpleRemoteFileProvider();
             var file = CreateFile();
             var destination = new Uri(TempFilePath());
             var response = await FileDownloadRequest.DownloadFile(provider, file, destination);
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
-        [Test]
+        [Fact]
         public async Task TestDownloadFileWithSpaceInName()
         {
             var fileName = "spaced file name.txt";
@@ -110,11 +110,11 @@ namespace Float.FileDownloader.Tests
             Assert.False(File.Exists(destinationString));
 
             var response = await FileDownloadRequest.DownloadFile(provider, file, destinationUri);
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             Assert.True(File.Exists(destinationString));
         }
 
-        [Test]
+        [Fact]
         public async Task TestDownloadFileWithSpaceInNameWithoutFileUri()
         {
             var fileName = "spaced file name.txt";
@@ -122,11 +122,11 @@ namespace Float.FileDownloader.Tests
             var file = CreateFile(fileName);
             var destination = new Uri(Path.GetTempPath());
             var response = await FileDownloadRequest.DownloadFile(provider, file, destination);
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             Assert.True(File.Exists(Path.Combine(Path.GetTempPath(), fileName)));
         }
 
-        [Test]
+        [Fact]
         public async Task TestDownloadAdjacentFiles()
         {
             var provider = new SimpleRemoteFileProvider();
@@ -151,6 +151,29 @@ namespace Float.FileDownloader.Tests
             Assert.True(Directory.Exists(folder));
             Assert.True(File.Exists(destination1.AbsolutePath));
             Assert.True(File.Exists(destination2.AbsolutePath));
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (isDisposed) return;
+
+            if (disposing)
+            {
+                server.Dispose();
+            }
+
+            isDisposed = true;
+        }
+
+        ~FileDownloadRequestTests()
+        {
+            Dispose(false);
         }
     }
 }
