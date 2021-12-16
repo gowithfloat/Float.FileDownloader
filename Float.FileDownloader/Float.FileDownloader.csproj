@@ -9,6 +9,7 @@
     <Title>Float.FileDownloader</Title>
     <Description>File downloading library</Description>
     <PackageId>Float.FileDownloader</PackageId>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
     <AdditionalFiles Include="../stylecop.json" />
