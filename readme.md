@@ -1,8 +1,4 @@
-## Float.FileDownloader
-
-![Version](https://img.shields.io/badge/version-0.1.0-yellow.svg)
-![Float](https://img.shields.io/badge/float-private-red.svg)
-![NuGet status](https://img.shields.io/badge/nuget-available-green.svg)
+# Float.FileDownloader [![Test](https://github.com/gowithfloat/Float.FileDownloader/actions/workflows/test.yml/badge.svg)](https://github.com/gowithfloat/Float.FileDownloader/actions/workflows/test.yml) [![NuGet](https://img.shields.io/nuget/v/Float.FileDownloader)](https://www.nuget.org/packages/Float.FileDownloader/)
 
 This Xamarin library provides a convenient API for downloading HTTP responses to a file. Additionally, it provides a barebones concept of a "remote file" (e.g. a PDF or ZIP file on a server) and provides the logic necessary for downloading and caching the file locally.
 
