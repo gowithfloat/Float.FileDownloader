@@ -38,6 +38,13 @@ Thumbs.db
 
 # dotCover
 *.dotCover
-/.vs
+TestResult.xml
+Resource.designer.cs
+.vs
 
-coverage.*.xml
+.vscode
+*/coverage.*.xml
+
+#Cake
+tools/*
+!tools/packages.config
