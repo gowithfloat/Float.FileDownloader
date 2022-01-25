@@ -19,7 +19,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Float.HttpServer" Version="1.0.0.2" />
+    <PackageReference Include="Float.HttpServer" Version="1.0.0.4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Float.FileDownloader\Float.FileDownloader.csproj" />
