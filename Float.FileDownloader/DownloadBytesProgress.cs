@@ -22,17 +22,17 @@ namespace Float.FileDownloader
 
             if (bytesReceived < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(bytesReceived));
+                throw new ArgumentOutOfRangeException(nameof(bytesReceived), $"{bytesReceived}");
             }
 
             if (totalBytes < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(totalBytes));
+                throw new ArgumentOutOfRangeException(nameof(totalBytes), $"{totalBytes}");
             }
 
             if (bytesReceived > totalBytes)
             {
-                throw new ArgumentOutOfRangeException(nameof(bytesReceived));
+                throw new ArgumentOutOfRangeException(nameof(bytesReceived), $"{bytesReceived}/{totalBytes}");
             }
 
             FileUrl = fileUrl;
