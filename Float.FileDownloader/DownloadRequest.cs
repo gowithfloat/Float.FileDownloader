@@ -32,7 +32,10 @@ namespace Float.FileDownloader
                 throw new ArgumentException(nameof(destination));
             }
 
-            using (var client = new HttpClient())
+            var handler = new HttpClientHandler();
+            handler.CookieContainer = new System.Net.CookieContainer();
+
+            using (var client = new HttpClient(handler))
             {
                 if (cancellationTokenSource == null)
                 {

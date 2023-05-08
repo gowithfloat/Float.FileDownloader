@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -71,6 +73,19 @@ namespace Float.FileDownloader.Tests
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "http://www.floatfloatfloat.float/float");
             await Assert.ThrowsAsync<HttpRequestException>(async () => await DownloadRequest.Download(request, TempFilePath()));
+        }
+
+        [Fact]
+        public async Task TestNoCookies()
+        {
+            var request1 = new HttpRequestMessage(HttpMethod.Put, TestUriString());
+            await DownloadRequest.Download(request1, TempFilePath());
+
+            var request2 = new HttpRequestMessage(HttpMethod.Get, TestUri());
+            await DownloadRequest.Download(request2, TempFilePath());
+
+            var requestResult = await DownloadRequest.Download(request2, TempFilePath());
+            Assert.Empty(requestResult.Headers.Where(header => header.Key == "Set-Cookie"));
         }
     }
 }
