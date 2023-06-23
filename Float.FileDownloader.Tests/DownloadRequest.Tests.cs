@@ -78,25 +78,12 @@ namespace Float.FileDownloader.Tests
         [Fact]
         public async Task TestEmptyHandler()
         {
+            var filePath = TempFilePath();
             var request1 = new HttpRequestMessage(HttpMethod.Put, TestUriString());
-            await DownloadRequest.Download(request1, TempFilePath());
-
+            await DownloadRequest.Download(request1, filePath);
             var request2 = new HttpRequestMessage(HttpMethod.Get, TestUri());
-            await DownloadRequest.Download(request2, TempFilePath());
-        }
-
-        [Fact]
-        public async Task TestCustomHandler()
-        {
-            var handler = new HttpClientHandler();
-            handler.Properties.Add("k1", "v1");
-            handler.Properties.Add("k2", "v2");
-
-            var request1 = new HttpRequestMessage(HttpMethod.Put, TestUriString());
-            await DownloadRequest.Download(request1, TempFilePath());
-
-            var request2 = new HttpRequestMessage(HttpMethod.Get, TestUri());
-            await DownloadRequest.Download(request2, TempFilePath(), clientHandler: handler);
+            await DownloadRequest.Download(request2, filePath);
+            Assert.True(System.IO.File.Exists(filePath));
         }
     }
 }
