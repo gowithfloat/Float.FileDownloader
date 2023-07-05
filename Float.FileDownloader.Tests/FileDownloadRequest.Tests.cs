@@ -1,8 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Float.HttpServer;
+using Moq;
+using Moq.Protected;
 using Xunit;
 using static Float.FileDownloader.Tests.TestHelpers;
 
@@ -151,6 +155,18 @@ namespace Float.FileDownloader.Tests
             Assert.True(Directory.Exists(folder));
             Assert.True(File.Exists(destination1.AbsolutePath));
             Assert.True(File.Exists(destination2.AbsolutePath));
+        }
+
+        [Fact]
+        public async Task TestCustomHandler()
+        {
+            var provider = new SimpleRemoteFileProvider();
+            var file = CreateFile();
+            var destination = new Uri(TempFilePath());
+            var mock = new Mock<HttpClientHandler>();
+            mock.Protected().Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>()).Returns(Task.FromResult(new HttpResponseMessage()));
+            await FileDownloadRequest.DownloadFile(provider, file, destination, clientHandler: mock.Object);
+            mock.Protected().Verify("SendAsync", Times.AtLeastOnce(), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
         }
 
         public void Dispose()
