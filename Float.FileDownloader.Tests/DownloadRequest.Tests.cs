@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
+using Moq;
+using Moq.Protected;
 using Xunit;
 using static Float.FileDownloader.Tests.TestHelpers;
 
@@ -76,14 +77,12 @@ namespace Float.FileDownloader.Tests
         }
 
         [Fact]
-        public async Task TestEmptyHandler()
+        public async Task TestCustomHandler()
         {
-            var filePath = TempFilePath();
-            var request1 = new HttpRequestMessage(HttpMethod.Put, TestUriString());
-            await DownloadRequest.Download(request1, filePath);
-            var request2 = new HttpRequestMessage(HttpMethod.Get, TestUri());
-            await DownloadRequest.Download(request2, filePath);
-            Assert.True(System.IO.File.Exists(filePath));
+            var mock = new Mock<HttpClientHandler>();
+            mock.Protected().Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>()).Returns(Task.FromResult(new HttpResponseMessage()));
+            await DownloadRequest.Download(new HttpRequestMessage(HttpMethod.Get, TestUriString()), TempFilePath(), clientHandler: mock.Object);
+            mock.Protected().Verify("SendAsync", Times.AtLeastOnce(), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
         }
     }
 }
