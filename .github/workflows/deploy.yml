@@ -23,5 +23,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: nuget.nupkg
-          path: ./Float.FileDownloader/bin/Release/*.nupkg
+          path: ./Float.FileDownloader/bin/Release/
           retention-days: 5
