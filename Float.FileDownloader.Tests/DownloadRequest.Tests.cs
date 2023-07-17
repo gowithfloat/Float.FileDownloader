@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
+using Moq;
+using Moq.Protected;
 using Xunit;
 using static Float.FileDownloader.Tests.TestHelpers;
 
@@ -71,6 +74,15 @@ namespace Float.FileDownloader.Tests
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "http://www.floatfloatfloat.float/float");
             await Assert.ThrowsAsync<HttpRequestException>(async () => await DownloadRequest.Download(request, TempFilePath()));
+        }
+
+        [Fact]
+        public async Task TestCustomHandler()
+        {
+            var mock = new Mock<HttpClientHandler>();
+            mock.Protected().Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>()).Returns(Task.FromResult(new HttpResponseMessage()));
+            await DownloadRequest.Download(new HttpRequestMessage(HttpMethod.Get, TestUriString()), TempFilePath(), clientHandler: mock.Object);
+            mock.Protected().Verify("SendAsync", Times.AtLeastOnce(), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
         }
     }
 }

@@ -15,8 +15,13 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 6.0.x
-
       - name: Deploy to NuGet
         env:
           FLOAT_NUGET_TOKEN: ${{ secrets.FLOAT_NUGET_TOKEN }}
         run: ./build.sh --task=Deploy --configuration=Release --nugetUrl="https://api.nuget.org/v3/index.json" --nugetToken="${FLOAT_NUGET_TOKEN}"
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: nuget.nupkg
+          path: ./Float.FileDownloader/bin/Release/
+          retention-days: 5

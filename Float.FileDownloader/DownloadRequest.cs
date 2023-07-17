@@ -20,7 +20,8 @@ namespace Float.FileDownloader
         /// <param name="progressReporter">Optionally, a progress reporter can be provided to receive updated on download status.</param>
         /// <param name="cancellationTokenSource">Optionally, a cancellation token can be specified to allow the caller to cancel the download.</param>
         /// <param name="bufferSize">The size of the buffer for writing to disk. 4096 by default.</param>
-        public static async Task<HttpResponseMessage> Download(HttpRequestMessage request, string destination, IProgress<IDownloadBytesProgress> progressReporter = null, CancellationTokenSource cancellationTokenSource = null, int bufferSize = 4096)
+        /// <param name="clientHandler">Optionally, the client handler.</param>
+        public static async Task<HttpResponseMessage> Download(HttpRequestMessage request, string destination, IProgress<IDownloadBytesProgress> progressReporter = null, CancellationTokenSource cancellationTokenSource = null, int bufferSize = 4096, HttpClientHandler clientHandler = null)
         {
             if (request == null)
             {
@@ -32,7 +33,12 @@ namespace Float.FileDownloader
                 throw new ArgumentException(nameof(destination));
             }
 
-            using (var client = new HttpClient())
+            if (clientHandler == null)
+            {
+                clientHandler = new HttpClientHandler();
+            }
+
+            using (var client = new HttpClient(clientHandler))
             {
                 if (cancellationTokenSource == null)
                 {
