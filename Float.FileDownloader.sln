@@ -1,9 +1,9 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Float.FileDownloader.Tests", "Float.FileDownloader.Tests\Float.FileDownloader.Tests.csproj", "{4634C855-96CD-444E-AF68-005A20E2EE56}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Float.FileDownloader", "Float.FileDownloader\Float.FileDownloader.csproj", "{4036122C-4102-4F34-8CCC-08F64E7DBFFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Float.FileDownloader.Tests", "Float.FileDownloader.Tests\Float.FileDownloader.Tests.csproj", "{0A0FFC00-9350-499C-B449-2546C27CDC70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,14 +12,14 @@ Global
 		Test|Any CPU = Test|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4634C855-96CD-444E-AF68-005A20E2EE56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4634C855-96CD-444E-AF68-005A20E2EE56}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4634C855-96CD-444E-AF68-005A20E2EE56}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4634C855-96CD-444E-AF68-005A20E2EE56}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4036122C-4102-4F34-8CCC-08F64E7DBFFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4036122C-4102-4F34-8CCC-08F64E7DBFFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4036122C-4102-4F34-8CCC-08F64E7DBFFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4036122C-4102-4F34-8CCC-08F64E7DBFFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A0FFC00-9350-499C-B449-2546C27CDC70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A0FFC00-9350-499C-B449-2546C27CDC70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A0FFC00-9350-499C-B449-2546C27CDC70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A0FFC00-9350-499C-B449-2546C27CDC70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
