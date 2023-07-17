@@ -9,6 +9,10 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>../stylecop.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>1701;1702;CA1016</NoWarn>
+  </PropertyGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
