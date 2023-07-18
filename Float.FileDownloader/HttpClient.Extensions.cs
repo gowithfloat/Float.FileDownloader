@@ -47,7 +47,12 @@ namespace Float.FileDownloader
             using (var response = await client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
             {
                 // get content length from headers
-                var contentLength = response.Content.Headers.ContentLength;
+                var contentLength = response.Content?.Headers.ContentLength;
+
+                if (contentLength == null)
+                {
+                    return response;
+                }
 
                 // create task to download response content
                 using (var download = await response.Content.ReadAsStreamAsync())
