@@ -20,8 +20,10 @@ jobs:
           7.0.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build
-      run: dotnet build ./Float.FileDownloader/Float.FileDownloader.csproj -c Release /p:Version=${{ github.event.release.name }} /p:AssemblyVersion=${{ github.event.release.name }}
+    - name: Build and Set Assembly Version
+      run: ./build.sh --task=Build --configuration=Release
+    - name: Update Version
+      run: sed -i "s/<Version><\/Version>/<Version>${{ github.event.release.name }}<\/Version>/" ./Float.FileDownloader/Float.FileDownloader.csproj
     - name: Pack
       run: dotnet pack --configuration Release --no-restore --no-build
     - name: Deploy to NuGet
