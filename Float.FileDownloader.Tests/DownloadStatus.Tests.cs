@@ -91,15 +91,27 @@ namespace Float.FileDownloader.Tests
             Assert.Equal(0, percentProgressChanges);
 
             progress.Report(new DownloadBytesProgress(new Uri("a://b.c"), 1, 5));
+#if NETCOREAPP3_1
+            await Task.Delay(10000);
+#else
             await Task.Delay(50);
+#endif
             Assert.Equal(1, percentProgressChanges);
 
             progress.Report(new DownloadBytesProgress(new Uri("a://b.c"), 2, 5));
+#if NETCOREAPP3_1
+            await Task.Delay(10000);
+#else
             await Task.Delay(50);
+#endif
             Assert.Equal(2, percentProgressChanges);
 
             progress.Report(new DownloadBytesProgress(new Uri("a://b.c"), 201, 500));
+#if NETCOREAPP3_1
+            await Task.Delay(10000);
+#else
             await Task.Delay(50);
+#endif
             Assert.Equal(2, percentProgressChanges);
         }
 

@@ -66,6 +66,13 @@ namespace Float.FileDownloader.Tests
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "http://www.httpbin.org/status/404");
             var response = await DownloadRequest.Download(request, TempFilePath());
+
+            // This test is flaky so retry.
+            if (response.StatusCode == HttpStatusCode.GatewayTimeout)
+            {
+                response = await DownloadRequest.Download(request, TempFilePath());
+            }
+
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 

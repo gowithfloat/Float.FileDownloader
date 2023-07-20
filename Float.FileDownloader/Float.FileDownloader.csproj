@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2;net6.0;net7.0</TargetFrameworks>
     <AssemblyName>Float.FileDownloader</AssemblyName>
     <AssemblyAuthor>Float</AssemblyAuthor>
     <AssemblyDescription>Provides a convenient API for downloading HTTP responses to a file.</AssemblyDescription>
@@ -9,8 +9,8 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <PackageId>$(AssemblyName)</PackageId>
     <Title>$(AssemblyName)</Title>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <LangVersion>9.0</LangVersion>
+    <ReleaseVersion>1.0.0</ReleaseVersion>
   </PropertyGroup>
   <ItemGroup>
     <AdditionalFiles Include="$(SolutionDir)/stylecop.json" />
@@ -27,6 +27,11 @@
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DebugSymbols>true</DebugSymbols>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>1701;1702;CA1016</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
@@ -46,6 +51,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="../readme.md" Pack="true" PackagePath="\"/>
+    <None Include="../readme.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>
