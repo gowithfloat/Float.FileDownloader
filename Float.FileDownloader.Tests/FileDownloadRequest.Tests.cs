@@ -165,7 +165,7 @@ namespace Float.FileDownloader.Tests
             var destination = new Uri(TempFilePath());
             var mock = new Mock<HttpClientHandler>();
             mock.Protected().Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>()).Returns(Task.FromResult(new HttpResponseMessage()));
-            await FileDownloadRequest.DownloadFile(provider, file, destination, clientHandler: mock.Object);
+            await FileDownloadRequest.DownloadFile(provider, file, destination, messageHandler: mock.Object);
             mock.Protected().Verify("SendAsync", Times.AtLeastOnce(), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
         }
 
