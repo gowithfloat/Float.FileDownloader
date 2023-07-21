@@ -91,6 +91,7 @@ namespace Float.FileDownloader.Tests
             DownloadRequest.DownloadMessageHandler = mock.Object;
             await DownloadRequest.Download(new HttpRequestMessage(HttpMethod.Get, TestUriString()), TempFilePath());
             mock.Protected().Verify("SendAsync", Times.AtLeastOnce(), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            DownloadRequest.DownloadMessageHandler = null;
         }
     }
 }
