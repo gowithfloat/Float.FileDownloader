@@ -31,8 +31,7 @@ namespace Float.FileDownloader
         /// <param name="downloadDestination">Absolute URI of the location to save the downloaded file.</param>
         /// <param name="status">Optionally, receive status updates about the download progress of the file.</param>
         /// <param name="fileProcessor">Optionally, specify an IFileProcessor to process or manipulate the file after it downloads.</param>
-        /// <param name="messageHandler">Optionally, the message handler.</param>
-        public static async Task<HttpResponseMessage> DownloadFile(IRemoteFileProvider fileProvider, IRemoteFile file, Uri downloadDestination, DownloadStatus status = null, IRemoteFileProcessor fileProcessor = null, HttpMessageHandler messageHandler = null)
+        public static async Task<HttpResponseMessage> DownloadFile(IRemoteFileProvider fileProvider, IRemoteFile file, Uri downloadDestination, DownloadStatus status = null, IRemoteFileProcessor fileProcessor = null)
         {
             if (fileProvider == null)
             {
@@ -80,7 +79,7 @@ namespace Float.FileDownloader
 
             try
             {
-                response = await DownloadRequest.Download(request, temporaryDownloadPath, progressReporter, token, messageHandler: messageHandler);
+                response = await DownloadRequest.Download(request, temporaryDownloadPath, progressReporter, token);
             }
             catch (Exception e)
             {
