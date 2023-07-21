@@ -15,7 +15,7 @@ namespace Float.FileDownloader
         /// Gets or sets the default message handler to use when downloading a request.
         /// </summary>
         /// <value>An HttpMessageHandler to use for each download.</value>
-        public static HttpMessageHandler DownloadMessageHandler { get; set; } = new HttpClientHandler();
+        public static HttpMessageHandler DownloadMessageHandler { get; set; }
 
         /// <summary>
         /// Downloads the response body to the specified file.
@@ -38,7 +38,9 @@ namespace Float.FileDownloader
                 throw new ArgumentException(nameof(destination));
             }
 
-            using (var client = new HttpClient(DownloadMessageHandler ?? new HttpClientHandler(), false))
+            var messageHandler = DownloadMessageHandler ?? new HttpClientHandler();
+
+            using (var client = new HttpClient(messageHandler))
             {
                 if (cancellationTokenSource == null)
                 {
