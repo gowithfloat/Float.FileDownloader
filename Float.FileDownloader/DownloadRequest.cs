@@ -39,8 +39,9 @@ namespace Float.FileDownloader
             }
 
             var messageHandler = DownloadMessageHandler ?? new HttpClientHandler();
+            var shouldDisposeHandler = DownloadMessageHandler == null;
 
-            using (var client = new HttpClient(messageHandler))
+            using (var client = new HttpClient(messageHandler, shouldDisposeHandler))
             {
                 if (cancellationTokenSource == null)
                 {
