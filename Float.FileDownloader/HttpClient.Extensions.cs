@@ -49,7 +49,7 @@ namespace Float.FileDownloader
                 // get content length from headers
                 var contentLength = response.Content?.Headers.ContentLength;
 
-                if (contentLength == null)
+                if (contentLength == null || contentLength == 0)
                 {
                     return response;
                 }
